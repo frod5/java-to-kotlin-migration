@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import org.jetbrains.annotations.NotNull;
+
 @Entity
 public class UserLoanHistory {
 
@@ -33,6 +35,7 @@ public class UserLoanHistory {
     this.isReturn = isReturn;
   }
 
+  @NotNull
   public String getBookName() {
     return this.bookName;
   }
@@ -41,4 +44,12 @@ public class UserLoanHistory {
     this.isReturn = true;
   }
 
+  @NotNull
+  public User getUser() {
+    return user;
+  }
+
+  public boolean isReturn() {
+    return isReturn;
+  }
 }
