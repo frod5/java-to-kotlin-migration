@@ -1,14 +1,14 @@
 package com.group.libraryapp.service.book
 
-import com.group.libraryapp.domain.book.Book
+import com.group.libraryapp.domain.Book
 import com.group.libraryapp.domain.book.BookRepository
-import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistoryRepository
 import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
+import com.group.libraryapp.user.User
+import com.group.libraryapp.user.loanhistory.UserLoanHistory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DisplayName
@@ -72,7 +72,13 @@ class BookServiceTest @Autowired constructor (
         //given
         bookRepository.save(Book("A-book"))
         val userA = userRepository.save(User("Kim", 20))
-        userLoanHistoryRepository.save(UserLoanHistory(userA, "A-book", false))
+        userLoanHistoryRepository.save(
+            UserLoanHistory(
+                userA,
+                "A-book",
+                false
+            )
+        )
         val userB = userRepository.save(User("Lee", 20))
         val request = BookLoanRequest("Lee", "A-book")
 
@@ -90,7 +96,13 @@ class BookServiceTest @Autowired constructor (
         //given
         bookRepository.save(Book("A-book"))
         val userA = userRepository.save(User("Kim", 20))
-        userLoanHistoryRepository.save(UserLoanHistory(userA, "A-book", false))
+        userLoanHistoryRepository.save(
+            UserLoanHistory(
+                userA,
+                "A-book",
+                false
+            )
+        )
         val returnRequest = BookReturnRequest("Kim", "A-book")
 
         //when

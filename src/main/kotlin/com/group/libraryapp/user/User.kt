@@ -1,0 +1,39 @@
+package com.group.libraryapp.user
+
+import com.group.libraryapp.domain.Book
+import com.group.libraryapp.user.loanhistory.UserLoanHistory
+import javax.persistence.*
+
+@Entity
+class User (
+
+    var name: String,
+
+    val age: Int? = null,
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null,
+) {
+
+    init {
+        if (name.isBlank()) {
+            throw IllegalArgumentException("이름은 비어 있을 수 없습니다");
+        }
+    }
+
+    fun updateName(name: String) {
+        this.name = name
+    }
+
+    fun loanBook(book: Book) {
+        this.userLoanHistories.add(UserLoanHistory(this, book.name, false))
+    }
+
+    fun returnBook(bookName: String) {
+        this.userLoanHistories.first({ history -> history.bookName.equals(bookName) }).doReturn()
+    }
+}

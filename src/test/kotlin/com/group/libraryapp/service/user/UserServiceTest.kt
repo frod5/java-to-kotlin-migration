@@ -1,9 +1,9 @@
 package com.group.libraryapp.service.user
 
-import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
+import com.group.libraryapp.user.User
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DisplayName
@@ -41,7 +41,10 @@ class UserServiceTest @Autowired constructor(
     @DisplayName("유저 조회 정상 작동")
     fun getUserTest() {
         //given
-        userRepository.saveAll(listOf(User("kim", 30), User("sung", 20)))
+        userRepository.saveAll(listOf(
+            User("kim", 30),
+            User("sung", 20)
+        ))
 
         //when
         val users = userService.getUsers()
@@ -57,7 +60,7 @@ class UserServiceTest @Autowired constructor(
     fun updateUsernameTest() {
         //given
         val savedUser = userRepository.save(User("kim", 30))
-        val updateRequest = UserUpdateRequest(savedUser.id, "sung")
+        val updateRequest = UserUpdateRequest(savedUser.id!!, "sung")
 
         //when
         userService.updateUserName(updateRequest)
