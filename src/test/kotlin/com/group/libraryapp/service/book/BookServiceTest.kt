@@ -12,6 +12,7 @@ import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanhistory.UserLoanStatus
 import com.group.libraryapp.dto.book.response.BookStatResponse
+import com.group.libraryapp.repository.user.loanhistory.UserLoanHistoryQuerydslRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DisplayName
@@ -26,6 +27,7 @@ class BookServiceTest @Autowired constructor (
     private val bookRepository: BookRepository,
     private val userRepository: UserRepository,
     private val userLoanHistoryRepository: UserLoanHistoryRepository,
+    private val userLoanHistoryQuerydslRepository: UserLoanHistoryQuerydslRepository,
 ) {
 
     @AfterEach
@@ -112,7 +114,7 @@ class BookServiceTest @Autowired constructor (
         bookService.returnBook(returnRequest)
 
         //then
-        val result = userLoanHistoryRepository.findByBookNameAndStatus("A-book", UserLoanStatus.RETURNED)
+        val result = userLoanHistoryQuerydslRepository.find("A-book", UserLoanStatus.RETURNED)
         assertThat(result).isNotNull
         assertThat(result).extracting("user").extracting("id").isEqualTo(userA.id)
         assertThat(result!!.bookName).isEqualTo("A-book")
